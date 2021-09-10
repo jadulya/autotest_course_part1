@@ -11,9 +11,9 @@ def test_inputs_page():
         button = browser.find_element(By.NAME, "test")
         button.send_keys("Hi")
         browser.find_element(By.CSS_SELECTOR, "form > button").click()
-        success_text = browser.find_element(By.CSS_SELECTOR, ".notification.is-success").text
 
         assert element_is_present(browser, By.CSS_SELECTOR, ".notification.is-success"), "Вы нашли не то поле ввода"
+        success_text = browser.find_element(By.CSS_SELECTOR, ".notification.is-success").text
         assert success_text == "Верно"
 
 
@@ -27,10 +27,10 @@ def test_my_pet_page():
         browser.find_element(By.NAME, "age").send_keys("4")
         browser.find_element(By.NAME, "sex").send_keys("мужской")
         browser.find_element(By.CSS_SELECTOR, ".button").click()
-        success_text = browser.find_element(By.CSS_SELECTOR, ".notification.is-success").text
 
         assert element_is_present(browser, By.CSS_SELECTOR, ".notification.is-success"), \
             "Уведомление об успехе отсутствует"
+        success_text = browser.find_element(By.CSS_SELECTOR, ".notification.is-success").text
         assert success_text == "Успех."
 
 
@@ -41,10 +41,11 @@ def test_my_pet_page_negative():
         login(browser)
         browser.find_element(By.NAME, "pet").send_keys("Йорк")
         browser.find_element(By.CSS_SELECTOR, ".button").click()
-        danger_text = browser.find_element(By.CSS_SELECTOR, ".notification.is-danger").text
 
         assert not element_is_present(browser, By.CSS_SELECTOR, ".notification.is-success"), \
             "Уведомление об успехе отобразилось"
+        assert element_is_present(browser, By.CSS_SELECTOR, ".notification.is-danger")
+        danger_text = browser.find_element(By.CSS_SELECTOR, ".notification.is-danger").text
         assert danger_text == "Заполнены не все поля."
 
 
@@ -55,7 +56,7 @@ def test_menu_list():
         browser.find_element(By.ID, "login").click()
         login(browser)
 
-        default_list = ["Поля ввода и кнопки", "Мой питомец", "О себе", "Загрузка файла", "Ожидание",
+        DEFAULT_LIST = ["Поля ввода и кнопки", "Мой питомец", "О себе", "Загрузка файла", "Ожидание",
                         "Медленная загрузка", "Модальные окна", "Новая вкладка", "iframe", "Drag-and-drop"]
 
         menu_list = browser.find_elements(By.TAG_NAME, "li")
@@ -63,4 +64,5 @@ def test_menu_list():
         for item in menu_list:
             menu_list_text.append(item.text)
 
-        assert menu_list_text == default_list
+        assert menu_list_text == DEFAULT_LIST, "Строки меню не соответсвуют ожиданию"
+
