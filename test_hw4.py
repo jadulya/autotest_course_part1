@@ -42,3 +42,4 @@ def test_upload_file_page():
         browser.refresh()
         assert not element_is_present(browser, By.CSS_SELECTOR, ".notification.is-success"), \
             "Уведомление об успехе не пропало"
+
