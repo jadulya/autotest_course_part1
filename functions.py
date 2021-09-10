@@ -16,3 +16,4 @@ def element_is_present(browser, by, value):
         return True
     except NoSuchElementException:
         return False
+
