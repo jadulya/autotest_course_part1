@@ -20,11 +20,10 @@ def test_about_page():
         select = Select(level)
         select.select_by_visible_text("Middle")
         browser.find_element(By.NAME, "surname").send_keys(Keys.ENTER)
-        success_text = browser.find_element(By.CSS_SELECTOR, ".notification.is-success").text
-
         assert browser.find_element(By.ID, "age1").get_attribute("checked"), "Чек бокс не включен по умолчанию"
         assert element_is_present(browser, By.CSS_SELECTOR, ".notification.is-success"), \
             "Уведомление об успехе отсутствует"
+        success_text = browser.find_element(By.CSS_SELECTOR, ".notification.is-success").text
         assert success_text == "Успех."
 
 
