@@ -3,7 +3,7 @@ from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
-from functions import login, element_is_present
+from functions import login, element_is_present, wait_until_clickable, wait_until_visible
 
 
 def test_about_page():
@@ -11,19 +11,19 @@ def test_about_page():
         browser.get("https://qastand.valhalla.pw/about")
         browser.maximize_window()
         login(browser)
-        browser.find_element(By.NAME, "name").send_keys("Неля")
-        browser.find_element(By.NAME, "surname").send_keys("Аюпова")
-        browser.find_element(By.ID, "age2").click()
-        browser.find_element(By.ID, "lang1").click()
-        browser.find_element(By.ID, "lang2").click()
-        level = browser.find_element(By.NAME, "lvl")
+        wait_until_clickable(browser, (By.NAME, "name")).send_keys("Неля")
+        wait_until_clickable(browser, (By.NAME, "surname")).send_keys("Аюпова")
+        wait_until_clickable(browser, (By.ID, "age2")).click()
+        wait_until_clickable(browser, (By.ID, "lang1")).click()
+        wait_until_clickable(browser, (By.ID, "lang2")).click()
+        level = wait_until_visible(browser, (By.NAME, "lvl"))
         select = Select(level)
-        select.select_by_visible_text("Middle")
-        browser.find_element(By.NAME, "surname").send_keys(Keys.ENTER)
-        assert browser.find_element(By.ID, "age1").get_attribute("checked"), "Чек бокс не включен по умолчанию"
+        select.select_by_visible_text("Middle")  # вот тут тоже надо же ожидание?
+        wait_until_clickable(browser, (By.NAME, "surname")).send_keys(Keys.ENTER)
+        assert wait_until_visible(browser, (By.ID, "age1")).get_attribute("checked"), "Чек бокс не включен по умолчанию"
         assert element_is_present(browser, By.CSS_SELECTOR, ".notification.is-success"), \
             "Уведомление об успехе отсутствует"
-        success_text = browser.find_element(By.CSS_SELECTOR, ".notification.is-success").text
+        success_text = wait_until_visible(browser, (By.CSS_SELECTOR, ".notification.is-success")).text
         assert success_text == "Успех."
 
 
@@ -32,13 +32,12 @@ def test_upload_file_page():
         browser.get("https://qastand.valhalla.pw/upload_file")
         browser.maximize_window()
         login(browser)
-        upload_file = browser.find_element(By.CSS_SELECTOR, '[type="file"]')
-        upload_file.send_keys(os.path.join(os.getcwd(), 'resources', 'команда.jpg'))
-        browser.find_element(By.CLASS_NAME, 'button').click()
+        wait_until_clickable(browser, (By.CSS_SELECTOR, '[type="file"]')).send_keys(os.path.join(os.getcwd(),
+                                                                                      'resources', 'команда.jpg'))
+        wait_until_clickable(browser, (By.CLASS_NAME, 'button')).click()
 
         assert element_is_present(browser, By.CSS_SELECTOR, ".notification.is-success"), \
             "Уведомление об успехе отсутствует"
         browser.refresh()
         assert not element_is_present(browser, By.CSS_SELECTOR, ".notification.is-success"), \
             "Уведомление об успехе не пропало"
-
