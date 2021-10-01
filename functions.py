@@ -18,7 +18,6 @@ def wait_until_all_elements_visible(browser, locator, timeout=10):
 
 def wait_until_text_is(browser, locator, text_, timeout=10):
     return WebDriverWait(browser, timeout).until(ec.text_to_be_present_in_element(locator, text_))
-    # как долго я тупила тут с аргументами и скобками
 
 
 def wait_until_alert(browser, timeout=10):

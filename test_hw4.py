@@ -18,7 +18,7 @@ def test_about_page():
         wait_until_clickable(browser, (By.ID, 'lang2')).click()
         level = wait_until_visible(browser, (By.NAME, 'lvl'))
         select = Select(level)
-        select.select_by_visible_text("Middle")  # вот тут тоже надо же ожидание?
+        select.select_by_visible_text("Middle")
         wait_until_clickable(browser, (By.NAME, 'surname')).send_keys(Keys.ENTER)
         assert wait_until_visible(browser, (By.ID, 'age1')).get_attribute("checked"), "Чек бокс не включен по умолчанию"
         assert element_is_present(browser, By.CSS_SELECTOR, '.notification.is-success'), \
@@ -32,8 +32,9 @@ def test_upload_file_page():
         browser.get('https://qastand.valhalla.pw/upload_file')
         browser.maximize_window()
         login(browser)
-        wait_until_clickable(browser, (By.CSS_SELECTOR, '[type="file"]')).send_keys(os.path.join(os.getcwd(),
-                                                                                      'resources', 'команда.jpg'))
+        wait_until_visible(browser, (By.CSS_SELECTOR, '[type="file"]')).send_keys(os.path.join(os.getcwd(),
+                                                                                               'resources',
+                                                                                               'команда.jpg'))
         wait_until_clickable(browser, (By.CLASS_NAME, 'button')).click()
 
         assert element_is_present(browser, By.CSS_SELECTOR, ".notification.is-success"), \
