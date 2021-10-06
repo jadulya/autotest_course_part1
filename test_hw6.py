@@ -28,7 +28,8 @@ def test_three_buttons_page():
         login(browser)
         wait_until_clickable(browser, (By.CSS_SELECTOR, '[onclick = "confirm_func()"]')).click()
         wait_until_alert(browser).dismiss()
-        assert element_is_present(browser, By.ID, 'confirm_text'), "Не запускаем"
+        success_text = wait_until_visible(browser, (By.ID, 'confirm_text')).text
+        assert success_text == "Не запускаем"
 
 
 def test_iframe_page():
