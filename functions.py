@@ -24,6 +24,10 @@ def wait_until_alert(browser, timeout=10):
     return WebDriverWait(browser, timeout).until(ec.alert_is_present())
 
 
+def wait_iframe_switch_to(browser, locator, timeout=10):
+    return WebDriverWait(browser, timeout).until(ec.frame_to_be_available_and_switch_to_it(locator))
+
+
 def wait_until_url_to_be(browser, url, timeout=10):
     return WebDriverWait(browser, timeout).until(ec.url_to_be(url))
 
@@ -44,4 +48,3 @@ def element_is_present(browser, by, value):
         return True
     except TimeoutException:
         return False
-
